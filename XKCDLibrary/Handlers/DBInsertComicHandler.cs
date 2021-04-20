@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using XKCDLibrary.Commands;
 using XKCDLibrary.DataAccess;
 using XKCDLibrary.Models;
@@ -18,7 +19,13 @@ namespace XKCDLibrary.Handlers
         
         public async Task<ComicModel> Handle(DBInsertComicCommand request, CancellationToken cancellationToken)
         {
-            return await _DBData.Insert(request.Comic);
+            if(_DBData.SavedComicList.Contains(request.Comic.Num))
+            {
+                MessageBox.Show("This comic has already been saved.");
+                return null;
+            }
+            else
+                return await _DBData.Insert(request.Comic);
         }
     }
 }

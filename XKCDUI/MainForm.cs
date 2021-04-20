@@ -33,7 +33,9 @@ namespace XKCDUI
         private async void GetButton_Click(object sender, EventArgs e)
         {
             GetButton.Enabled = false;
-            await GetRandomComic();
+            _currentComic = await _mediator.Send(new APIGetMostRecentComicQuery());
+            await UpdatePictureBoxImage(_currentComic);
+            await EnableAllButGetButton();
         }
 
         private async Task UpdatePictureBoxImage(ComicModel xkcd)
@@ -41,9 +43,21 @@ namespace XKCDUI
             ComicBox.WaitOnLoad = false;
             await Task.Run( () => ComicBox.LoadAsync(xkcd.Img) );
             ComicTitle.Text = xkcd.Title;
+        }
 
+        private Task EnableAllButtons()
+        {
+            GetButton.Enabled = true;
             SaveButton.Enabled = true;
             SkipButton.Enabled = true;
+            return Task.CompletedTask;
+        }
+
+        private Task EnableAllButGetButton()
+        {
+            SaveButton.Enabled = true;
+            SkipButton.Enabled = true;
+            return Task.CompletedTask;
         }
 
         private async void SaveButton_Click(object sender, EventArgs e)
@@ -51,7 +65,6 @@ namespace XKCDUI
             SaveButton.Enabled = false;
             var comic = await _mediator.Send(new DBInsertComicCommand(_currentComic));
             await UpdateSavedComicListControls(comic);
-            SkipButton.Text = "Next Comic";
         }
 
         private async Task UpdateSavedComicListControls(ComicModel comic)
@@ -65,7 +78,7 @@ namespace XKCDUI
             SkipButton.Enabled = false;
             SaveButton.Enabled = false;
             await GetRandomComic();
-            SkipButton.Text = "Skip Comic";
+            await EnableAllButtons();
         }
 
         internal Task EnableSearchButton()
@@ -75,9 +88,8 @@ namespace XKCDUI
 
         private async Task GetRandomComic()
         {
-            var xkcd = await _mediator.Send(new APIRandomComicQuery());
-            _currentComic = xkcd;
-            await UpdatePictureBoxImage(xkcd);
+            _currentComic = await _mediator.Send(new APIRandomComicQuery());
+            await UpdatePictureBoxImage(_currentComic);
         }
 
         private void SearchButton_Click(object sender, EventArgs e)

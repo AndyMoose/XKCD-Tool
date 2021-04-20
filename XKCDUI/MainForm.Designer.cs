@@ -78,7 +78,7 @@ namespace XKCDUI
             this.GetButton.Name = "GetButton";
             this.GetButton.Size = new System.Drawing.Size(151, 46);
             this.GetButton.TabIndex = 0;
-            this.GetButton.Text = "Get Random XKCD";
+            this.GetButton.Text = "Most Recent XKCD";
             this.GetButton.UseVisualStyleBackColor = false;
             this.GetButton.Click += new System.EventHandler(this.GetButton_Click);
             // 
@@ -99,12 +99,11 @@ namespace XKCDUI
             // 
             this.SkipButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.SkipButton.BackColor = System.Drawing.SystemColors.Control;
-            this.SkipButton.Enabled = false;
             this.SkipButton.Location = new System.Drawing.Point(23, 197);
             this.SkipButton.Name = "SkipButton";
             this.SkipButton.Size = new System.Drawing.Size(151, 46);
             this.SkipButton.TabIndex = 2;
-            this.SkipButton.Text = "Skip Comic";
+            this.SkipButton.Text = "Random Comic";
             this.SkipButton.UseVisualStyleBackColor = false;
             this.SkipButton.Click += new System.EventHandler(this.SkipButton_Click);
             // 

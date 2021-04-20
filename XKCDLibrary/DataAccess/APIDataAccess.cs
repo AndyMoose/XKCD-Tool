@@ -32,6 +32,5 @@ namespace XKCDLibrary.DataAccess
             }
 
         }
-
     }
 }
