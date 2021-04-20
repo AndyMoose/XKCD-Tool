@@ -19,6 +19,7 @@ namespace XKCDLibrary.DataAccess
         //Used for quick searches on existing saved comics without making DB calls
         public List<int> SavedComicList { get; set; }
 
+        public List<int> UnsavedComicList { get; set; }
 
         private const int COMMAND_TIMEOUT = 10;
 
@@ -31,6 +32,7 @@ namespace XKCDLibrary.DataAccess
         private async static void Initialize(DBDataAccess db)
         {
             await db.GenerateSavedComicList();
+            await db.GenerateUnsavedComicList();
         }
 
         public async Task<ComicModel> Insert(ComicModel xkcd)
@@ -70,7 +72,7 @@ namespace XKCDLibrary.DataAccess
 
                 //Add value to num list
                 SavedComicList.Add(xkcd.Num);
-                APIRandomComicHandler.UnsavedComicList.Remove(xkcd.Num);
+                UnsavedComicList.Remove(xkcd.Num);
 
                 //Return comic which was inserted
                 return xkcd;
@@ -112,7 +114,7 @@ namespace XKCDLibrary.DataAccess
 
                 //Remove num from num list
                 SavedComicList.Remove(xkcd.Num);
-                APIRandomComicHandler.UnsavedComicList.Add(xkcd.Num);
+                UnsavedComicList.Add(xkcd.Num);
 
                 //Return deleted comic
                 return xkcd;
@@ -155,6 +157,22 @@ namespace XKCDLibrary.DataAccess
                     "and ensure that the file is not open in another program.");
             }
             return Task.CompletedTask;
+        }
+        private async Task GenerateUnsavedComicList()
+        {
+            if (UnsavedComicList == null)
+            {
+                var mostRecentComic = APIDataAccess.XKCD_MOST_RECENT_COMIC_NUMBER;
+
+                UnsavedComicList = new List<int>();
+                for (int i = 1; i <= mostRecentComic; i++)
+                {
+                    if (!SavedComicList.Contains(i))
+                    {
+                        UnsavedComicList.Add(i);
+                    }
+                }
+            }
         }
 
         public Task<List<ComicModel>> GetListofSavedComics()

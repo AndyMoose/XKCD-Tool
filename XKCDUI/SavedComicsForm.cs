@@ -18,7 +18,7 @@ namespace XKCDUI
     {
         private readonly IMediator _mediator;
         private readonly MainForm _mainForm;
-        private ToolTip _toolTip;
+        private readonly ToolTip _toolTip;
 
         public SavedComicsForm(IMediator mediator, MainForm mainForm)
         {
