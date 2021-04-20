@@ -38,5 +38,4 @@ namespace XKCDLibrary.Handlers
             return Task.FromResult(unsavedComicList[randomIndex]);
         }
     }
-
 }
