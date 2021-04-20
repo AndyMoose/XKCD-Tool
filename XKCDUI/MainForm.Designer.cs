@@ -124,6 +124,7 @@ namespace XKCDUI
             this.ComicBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ComicBox.InitialImage = global::XKCDUI.Properties.Resources.smallerloadingwheel;
             this.ComicBox.Location = new System.Drawing.Point(223, 51);
             this.ComicBox.Name = "ComicBox";
             this.ComicBox.Size = new System.Drawing.Size(449, 298);

@@ -59,5 +59,15 @@ namespace XKCDUI.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap smallerloadingwheel {
+            get {
+                object obj = ResourceManager.GetObject("smallerloadingwheel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
