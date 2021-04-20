@@ -9,9 +9,9 @@ namespace XKCDLibrary.Handlers
 {
     class DBDeleteComicHandler : IRequestHandler<DBDeleteComicCommand, ComicModel>
     {
-        private readonly DBDataAccess _data;
+        private readonly IDBDataAccess _data;
 
-        public DBDeleteComicHandler (DBDataAccess data)
+        public DBDeleteComicHandler (IDBDataAccess data)
         {
             _data = data;
         }

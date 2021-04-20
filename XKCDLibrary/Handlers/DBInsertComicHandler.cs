@@ -10,18 +10,15 @@ namespace XKCDLibrary.Handlers
     class DBInsertComicHandler : IRequestHandler<DBInsertComicCommand, ComicModel>
     {
      
-        private readonly DBDataAccess _DBData;
-        private readonly APIDataAccess _APIData;
-        public DBInsertComicHandler(DBDataAccess dbdata, APIDataAccess apidata)
+        private readonly IDBDataAccess _DBData;
+        public DBInsertComicHandler(IDBDataAccess dbdata)
         {
             _DBData = dbdata;
-            _APIData = apidata;
         }
         
         public async Task<ComicModel> Handle(DBInsertComicCommand request, CancellationToken cancellationToken)
         {
-            var xkcd = _APIData.Xkcd;
-            return await _DBData.Insert(xkcd);
+            return await _DBData.Insert(request.Comic);
         }
     }
 }

@@ -5,43 +5,56 @@ using XKCDLibrary.Models;
 using MediatR;
 using System.Threading;
 using XKCDLibrary.DataAccess;
+using System.Collections.Generic;
 
 namespace XKCDLibrary.Handlers
 {
     public class APIRandomComicHandler : IRequestHandler<APIRandomComicQuery, ComicModel>
     {
-        private readonly APIDataAccess _apidata;
-        private readonly DBDataAccess _dbdata;
+        private readonly IAPIDataAccess _apidata;
+        private readonly IDBDataAccess _dbdata;
 
-        public const int MOST_RECENT_COMIC = 2449;
-        public const string XKCD_URL = "https://xkcd.com/";
-        public const string XKCD_URL_END = "/info.0.json";
+        private const string XKCD_URL = "https://xkcd.com/";
+        private const string XKCD_URL_END = "/info.0.json";
+        private const string XKCD_MOST_RECENT_URL = "https://xkcd.com/info.0.json";
 
-        public APIRandomComicHandler(APIDataAccess apidata, DBDataAccess dbdata)
+        internal static List<int> UnsavedComicList;
+
+        public APIRandomComicHandler(IAPIDataAccess apidata, IDBDataAccess dbdata)
         {
             _apidata = apidata;
             _dbdata = dbdata;
         }
+
         public async Task<ComicModel> Handle(APIRandomComicQuery request, CancellationToken cancellationToken)
         {
             string url = XKCD_URL + await RandomComicNumber() + XKCD_URL_END;
 
             return await _apidata.Get(url);
         }
-        private Task<int> RandomComicNumber()
+
+        private async Task<int> RandomComicNumber()
         {
-            int counter = 0;
-            int comicNumber;
-
-            do
+            if (UnsavedComicList == null)
             {
-                var random = new Random();
-                comicNumber = random.Next(1, MOST_RECENT_COMIC + 1);
-                counter++;
+                var comic = await _apidata.Get(XKCD_MOST_RECENT_URL);
+                var mostRecentComic = comic.Num;
 
-            } while (_dbdata.Nums.Contains(comicNumber) && counter < MOST_RECENT_COMIC);
+                UnsavedComicList = new List<int>();
+                for (int i = 0; i <= mostRecentComic; i++)
+                {
+                    if (!_dbdata.SavedComicList.Contains(i))
+                    {
+                        UnsavedComicList.Add(i);
+                    }
+                }
+            }
 
-            return Task.FromResult(comicNumber);
+            var random = new Random();
+ 
+            var randomIndex = random.Next(0, UnsavedComicList.Count);
+   
+            return UnsavedComicList[randomIndex];
         }
     }
 

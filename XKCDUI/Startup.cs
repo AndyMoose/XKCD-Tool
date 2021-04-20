@@ -16,8 +16,8 @@ namespace XKCDUI
         {
             var services = new ServiceCollection();
             services.AddMediatR(typeof(XKCDLibraryEntryPoint).Assembly);
-            services.AddSingleton<DBDataAccess>();
-            services.AddSingleton<APIDataAccess>();
+            services.AddTransient<IAPIDataAccess, APIDataAccess>();
+            services.AddTransient<IDBDataAccess, DBDataAccess>();
             return services.BuildServiceProvider();
         }
     }

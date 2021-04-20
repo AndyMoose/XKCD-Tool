@@ -4,15 +4,13 @@ using XKCDLibrary.Models;
 using Newtonsoft.Json;
 using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace XKCDLibrary.DataAccess
 {
-    public class APIDataAccess
+    public class APIDataAccess : IAPIDataAccess
     {
-
-        public ComicModel Xkcd { get; set; }
-
-        internal async Task<ComicModel> Get(string url)
+        public async Task<ComicModel> Get(string url)
         {
             try
             {
@@ -24,9 +22,7 @@ namespace XKCDLibrary.DataAccess
                     json = await client.GetStringAsync(url);
                 }
 
-                Xkcd = JsonConvert.DeserializeObject<ComicModel>(json);
-
-                return Xkcd;
+                return JsonConvert.DeserializeObject<ComicModel>(json);
             }
             catch
             {
@@ -34,7 +30,7 @@ namespace XKCDLibrary.DataAccess
 
                 return null;
             }
-           
+
         }
 
     }

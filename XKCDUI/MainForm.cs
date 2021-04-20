@@ -20,7 +20,7 @@ namespace XKCDUI
         private readonly IMediator _mediator;
         private SavedComicsForm _savedComicsForm;
         private ComicModel _currentComic;
-        private ToolTip _toolTip;
+        private readonly ToolTip _toolTip;
 
         public MainForm(IMediator mediator)
         {
@@ -49,7 +49,7 @@ namespace XKCDUI
         private async void SaveButton_Click(object sender, EventArgs e)
         {
             SaveButton.Enabled = false;
-            var comic = await _mediator.Send(new DBInsertComicCommand());
+            var comic = await _mediator.Send(new DBInsertComicCommand(_currentComic));
             await UpdateSavedComicListControls(comic);
             SkipButton.Text = "Next Comic";
         }
@@ -92,6 +92,5 @@ namespace XKCDUI
             if (ComicBox.Image != null)
                 _toolTip.SetToolTip(ComicBox, _currentComic.Alt);
         }
-
     }
 }
