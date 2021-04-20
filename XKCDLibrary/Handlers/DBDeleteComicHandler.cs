@@ -7,7 +7,7 @@ using XKCDLibrary.Models;
 
 namespace XKCDLibrary.Handlers
 {
-    class DBDeleteComicHandler : IRequestHandler<DBDeleteComicCommand, ComicModel>
+    public class DBDeleteComicHandler : IRequestHandler<DBDeleteComicCommand, ComicModel>
     {
         private readonly IDBDataAccess _data;
 

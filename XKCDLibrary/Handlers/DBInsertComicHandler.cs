@@ -7,7 +7,7 @@ using XKCDLibrary.Models;
 
 namespace XKCDLibrary.Handlers
 {
-    class DBInsertComicHandler : IRequestHandler<DBInsertComicCommand, ComicModel>
+    public class DBInsertComicHandler : IRequestHandler<DBInsertComicCommand, ComicModel>
     {
      
         private readonly IDBDataAccess _DBData;

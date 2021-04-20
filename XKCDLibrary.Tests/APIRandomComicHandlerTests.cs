@@ -7,7 +7,7 @@ using Xunit;
 using Moq;
 using System.Collections.Generic;
 
-namespace XKCDTests
+namespace XKCDLibrary.Tests
 {
     public class APIRandomComicHandlerTests
     {

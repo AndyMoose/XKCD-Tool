@@ -1,17 +1,15 @@
 ﻿using Moq;
+using System.Threading;
 using XKCDLibrary.Commands;
 using XKCDLibrary.DataAccess;
-using XKCDLibrary.Models;
 using XKCDLibrary.Handlers;
+using XKCDLibrary.Models;
 using Xunit;
-using System.Threading;
 
 namespace XKCDLibrary.Tests
 {
-    
-    public class DBDeleteComicHandlerTests
+    public class DBInsertComicHandlerTests
     {
-
         [Fact]
         public async void ReturnsSameComicPassed()
         {
@@ -22,14 +20,14 @@ namespace XKCDLibrary.Tests
             };
 
             var dbData = new Mock<IDBDataAccess>();
-            dbData.Setup(x => x.Delete(It.IsAny<ComicModel>())).ReturnsAsync(comic);
+            dbData.Setup(x => x.Insert(It.IsAny<ComicModel>())).ReturnsAsync(comic);
 
-            var deleteCommand = new DBDeleteComicCommand(comic);
+            var insertCommand = new DBInsertComicCommand(comic);
             var cancelToken = new CancellationToken();
-            var deleteHandler = new DBDeleteComicHandler(dbData.Object);
+            var insertHandler = new DBInsertComicHandler(dbData.Object);
 
             //act
-            var returnComic = await deleteHandler.Handle(deleteCommand, cancelToken);
+            var returnComic = await insertHandler.Handle(insertCommand, cancelToken);
 
             //assert
             Assert.Equal(comic.Num, returnComic.Num);
