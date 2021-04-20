@@ -158,21 +158,21 @@ namespace XKCDLibrary.DataAccess
             }
             return Task.CompletedTask;
         }
-        private async Task GenerateUnsavedComicList()
+        private Task GenerateUnsavedComicList()
         {
-            if (UnsavedComicList == null)
-            {
-                var mostRecentComic = APIDataAccess.XKCD_MOST_RECENT_COMIC_NUMBER;
 
-                UnsavedComicList = new List<int>();
-                for (int i = 1; i <= mostRecentComic; i++)
+            var mostRecentComic = APIDataAccess.XKCD_MOST_RECENT_COMIC_NUMBER;
+
+            UnsavedComicList = new List<int>();
+            for (int i = 1; i <= mostRecentComic; i++)
+            {
+                if (!SavedComicList.Contains(i))
                 {
-                    if (!SavedComicList.Contains(i))
-                    {
-                        UnsavedComicList.Add(i);
-                    }
+                    UnsavedComicList.Add(i);
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         public Task<List<ComicModel>> GetListofSavedComics()

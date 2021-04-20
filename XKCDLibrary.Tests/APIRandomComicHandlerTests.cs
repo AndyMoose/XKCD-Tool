@@ -15,8 +15,10 @@ namespace XKCDLibrary.Tests
         private ComicModel _mostRecentComic;
         private Mock<IAPIDataAccess> _apiData;
         private Mock<IDBDataAccess> _dbData;
-        private List<int> _shortList;
-        private List<int> _fullList;
+        private List<int> _shortSavedList;
+        private List<int> _fullSavedList;
+        private List<int> _shortUnsavedList;
+        private List<int> _fullUnsavedList;
         private const int MAXCOMIC = 2000;
 
         public APIRandomComicHandlerTests()
@@ -31,17 +33,27 @@ namespace XKCDLibrary.Tests
                 Num = MAXCOMIC
             };
 
-            _shortList = new List<int>
+            _shortSavedList = new List<int>
             {
                 99, 101
             };
 
-            _fullList = new List<int>();
+            _shortUnsavedList = new List<int>
+            {
+                100
+            };
+
+            _fullSavedList = new List<int>();
             for (int i = 1; i < MAXCOMIC; i++)
             {
-                _fullList.Add(i);
+                _fullSavedList.Add(i);
             }
-        
+
+            _fullUnsavedList = new List<int>
+            {
+                2000
+            };
+
         }
 
         [Fact]
@@ -52,7 +64,9 @@ namespace XKCDLibrary.Tests
             _apiData.Setup(x => x.Get(It.IsNotNull<string>())).ReturnsAsync(_comic);
 
             _dbData = new Mock<IDBDataAccess>();
-            _dbData.Setup(x => x.SavedComicList).Returns(_shortList);
+            _dbData.Setup(x => x.SavedComicList).Returns(_shortSavedList);
+            _dbData.Setup(x => x.UnsavedComicList).Returns(_shortUnsavedList);
+
 
             var apiComicHandler = new APIRandomComicHandler(_apiData.Object, _dbData.Object);
             var randomComicQuery = new APIRandomComicQuery();
@@ -73,7 +87,8 @@ namespace XKCDLibrary.Tests
             _apiData.Setup(x => x.Get(It.IsNotNull<string>())).ReturnsAsync(_mostRecentComic);
 
             _dbData = new Mock<IDBDataAccess>();
-            _dbData.Setup(x => x.SavedComicList).Returns(_fullList);
+            _dbData.Setup(x => x.SavedComicList).Returns(_fullSavedList);
+            _dbData.Setup(x => x.UnsavedComicList).Returns(_fullUnsavedList);
 
             var apiComicHandler = new APIRandomComicHandler(_apiData.Object, _dbData.Object);
             var randomComicQuery = new APIRandomComicQuery();
