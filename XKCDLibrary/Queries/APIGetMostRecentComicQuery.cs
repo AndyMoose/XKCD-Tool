@@ -3,7 +3,7 @@ using XKCDLibrary.Models;
 
 namespace XKCDLibrary.Queries
 {
-    public class APIGetMostRecentComicQuery : IRequest<ComicModel>
+    public class APIGetMostRecentComicQuery : IRequest<Comic>
     {
     }
 }

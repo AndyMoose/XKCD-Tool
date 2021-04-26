@@ -11,8 +11,8 @@ namespace XKCDLibrary.Tests
 {
     public class APIRandomComicHandlerTests
     {
-        private ComicModel _comic;
-        private ComicModel _mostRecentComic;
+        private Comic _comic;
+        private Comic _mostRecentComic;
         private Mock<IAPIDataAccess> _apiData;
         private Mock<IDBDataAccess> _dbData;
         private List<int> _shortSavedList;
@@ -23,12 +23,12 @@ namespace XKCDLibrary.Tests
 
         public APIRandomComicHandlerTests()
         {
-            _comic = new ComicModel()
+            _comic = new Comic()
             {
                 Num = 100
             };
 
-            _mostRecentComic = new ComicModel()
+            _mostRecentComic = new Comic()
             {
                 Num = MAXCOMIC
             };
@@ -73,7 +73,7 @@ namespace XKCDLibrary.Tests
             var cancelToken = new CancellationToken();
 
             //act
-            ComicModel comic = await apiComicHandler.Handle(randomComicQuery, cancelToken);
+            Comic comic = await apiComicHandler.Handle(randomComicQuery, cancelToken);
 
             //assert
             Assert.NotNull(comic);
@@ -95,7 +95,7 @@ namespace XKCDLibrary.Tests
             var cancelToken = new CancellationToken();
 
             //act
-            ComicModel comic = await apiComicHandler.Handle(randomComicQuery, cancelToken);
+            Comic comic = await apiComicHandler.Handle(randomComicQuery, cancelToken);
 
             //assert
             Assert.Equal(comic.Num, MAXCOMIC);

@@ -16,13 +16,13 @@ namespace XKCDLibrary.Tests
         public async void ReturnsSameComicPassed()
         {
             //arrange
-            var comic = new ComicModel()
+            var comic = new Comic()
             {
                 Num = 100
             };
 
             var dbData = new Mock<IDBDataAccess>();
-            dbData.Setup(x => x.Delete(It.IsAny<ComicModel>())).ReturnsAsync(comic);
+            dbData.Setup(x => x.Delete(It.IsAny<Comic>())).ReturnsAsync(comic);
 
             var deleteCommand = new DBDeleteComicCommand(comic);
             var cancelToken = new CancellationToken();

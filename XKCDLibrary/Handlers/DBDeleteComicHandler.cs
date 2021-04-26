@@ -7,7 +7,7 @@ using XKCDLibrary.Models;
 
 namespace XKCDLibrary.Handlers
 {
-    public class DBDeleteComicHandler : IRequestHandler<DBDeleteComicCommand, ComicModel>
+    public class DBDeleteComicHandler : IRequestHandler<DBDeleteComicCommand, Comic>
     {
         private readonly IDBDataAccess _data;
 
@@ -16,7 +16,7 @@ namespace XKCDLibrary.Handlers
             _data = data;
         }
 
-        public async Task<ComicModel> Handle(DBDeleteComicCommand request, CancellationToken cancellationToken)
+        public async Task<Comic> Handle(DBDeleteComicCommand request, CancellationToken cancellationToken)
         {
             return await _data.Delete(request.Comic);
         }

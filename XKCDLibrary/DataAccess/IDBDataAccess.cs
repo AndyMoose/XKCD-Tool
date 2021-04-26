@@ -8,8 +8,8 @@ namespace XKCDLibrary.DataAccess
     {
         List<int> SavedComicList { get; set; }
         List<int> UnsavedComicList { get; set; }
-        Task<ComicModel> Delete(ComicModel xkcd);
-        Task<ComicModel> Insert(ComicModel xkcd);
-        Task<List<ComicModel>> GetListofSavedComics();
+        Task<Comic> Delete(Comic xkcd);
+        Task<Comic> Insert(Comic xkcd);
+        Task<List<Comic>> GetListofSavedComics();
     }
 }

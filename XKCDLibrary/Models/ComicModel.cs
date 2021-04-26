@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace XKCDLibrary.Models
 {
-    public record ComicModel
+    public record Comic
     {
         public int Month { get; set; }
 

@@ -3,7 +3,7 @@ using XKCDLibrary.Models;
 
 namespace XKCDLibrary.Queries
 {
-    public class APIRandomComicQuery : IRequest<ComicModel>
+    public class APIRandomComicQuery : IRequest<Comic>
     {
         public APIRandomComicQuery()
         {

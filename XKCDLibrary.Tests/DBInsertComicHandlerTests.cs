@@ -15,7 +15,7 @@ namespace XKCDLibrary.Tests
         public async void ReturnsSameComicPassed()
         {
             //arrange
-            var comic = new ComicModel()
+            var comic = new Comic()
             {
                 Num = 100
             };
@@ -30,7 +30,7 @@ namespace XKCDLibrary.Tests
             }
 
             var dbData = new Mock<IDBDataAccess>();
-            dbData.Setup(x => x.Insert(It.Is<ComicModel>(i => i.Num.Equals(100)))).ReturnsAsync(comic);
+            dbData.Setup(x => x.Insert(It.Is<Comic>(i => i.Num.Equals(100)))).ReturnsAsync(comic);
             dbData.Setup(x => x.SavedComicList).Returns(comiclist);
 
             var insertCommand = new DBInsertComicCommand(comic);

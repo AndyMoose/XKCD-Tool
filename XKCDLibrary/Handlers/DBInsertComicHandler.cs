@@ -8,7 +8,7 @@ using XKCDLibrary.Models;
 
 namespace XKCDLibrary.Handlers
 {
-    public class DBInsertComicHandler : IRequestHandler<DBInsertComicCommand, ComicModel>
+    public class DBInsertComicHandler : IRequestHandler<DBInsertComicCommand, Comic>
     {
      
         private readonly IDBDataAccess _DBData;
@@ -17,7 +17,7 @@ namespace XKCDLibrary.Handlers
             _DBData = dbdata;
         }
         
-        public async Task<ComicModel> Handle(DBInsertComicCommand request, CancellationToken cancellationToken)
+        public async Task<Comic> Handle(DBInsertComicCommand request, CancellationToken cancellationToken)
         {
             if(_DBData.SavedComicList.Contains(request.Comic.Num))
             {

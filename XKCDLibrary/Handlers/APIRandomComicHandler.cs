@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace XKCDLibrary.Handlers
 {
-    public class APIRandomComicHandler : IRequestHandler<APIRandomComicQuery, ComicModel>
+    public class APIRandomComicHandler : IRequestHandler<APIRandomComicQuery, Comic>
     {
         private readonly IAPIDataAccess _apidata;
         private readonly IDBDataAccess _dbdata;
@@ -20,7 +20,7 @@ namespace XKCDLibrary.Handlers
             _dbdata = dbdata;
         }
 
-        public async Task<ComicModel> Handle(APIRandomComicQuery request, CancellationToken cancellationToken)
+        public async Task<Comic> Handle(APIRandomComicQuery request, CancellationToken cancellationToken)
         {
             string url = APIDataAccess.XKCD_URL + await RandomComicNumber() + APIDataAccess.XKCD_URL_END;
 

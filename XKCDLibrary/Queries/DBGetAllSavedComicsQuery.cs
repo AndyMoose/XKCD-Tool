@@ -4,7 +4,7 @@ using XKCDLibrary.Models;
 
 namespace XKCDLibrary.Queries
 {
-    public class DBGetAllSavedComicsQuery : IRequest<IList<ComicModel>>
+    public class DBGetAllSavedComicsQuery : IRequest<IList<Comic>>
     {
         
     }

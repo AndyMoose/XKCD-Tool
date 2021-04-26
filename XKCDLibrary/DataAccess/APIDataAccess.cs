@@ -28,7 +28,7 @@ namespace XKCDLibrary.DataAccess
         }
        
 
-        public async Task<ComicModel> Get(string url)
+        public async Task<Comic> Get(string url)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace XKCDLibrary.DataAccess
                     json = await client.GetStringAsync(url);
                 }
 
-                return JsonConvert.DeserializeObject<ComicModel>(json);
+                return JsonConvert.DeserializeObject<Comic>(json);
             }
             catch
             {

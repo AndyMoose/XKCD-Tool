@@ -3,10 +3,10 @@ using XKCDLibrary.Models;
 
 namespace XKCDLibrary.Commands
 {
-    public class DBDeleteComicCommand : IRequest<ComicModel>
+    public class DBDeleteComicCommand : IRequest<Comic>
     {
-        public ComicModel Comic;
-        public DBDeleteComicCommand(ComicModel comic)
+        public Comic Comic;
+        public DBDeleteComicCommand(Comic comic)
         {
             Comic = comic;
         }

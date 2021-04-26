@@ -28,12 +28,12 @@ namespace XKCDUI
             _mainForm = mainForm;
         }
 
-        public BindingList<ComicModel> comicListBindingSource = new();
+        public BindingList<Comic> comicListBindingSource = new();
 
         private async void SavedComicsForm_Load(object sender, EventArgs e)
         {
             var list = await _mediator.Send(new DBGetAllSavedComicsQuery());
-            comicListBindingSource = new BindingList<ComicModel>(list);
+            comicListBindingSource = new BindingList<Comic>(list);
             await BindComicList();
         }
 
@@ -51,26 +51,26 @@ namespace XKCDUI
         {
             var selectedImage = ComicList.SelectedItem;
             if(selectedImage != null)
-                await UpdatePictureBoxImage((ComicModel)selectedImage);
+                await UpdatePictureBoxImage((Comic)selectedImage);
         }
 
-        private async Task UpdatePictureBoxImage(ComicModel comic)
+        private async Task UpdatePictureBoxImage(Comic comic)
         {
             SavedComicBox.WaitOnLoad = false;
             await Task.Run(() => SavedComicBox.LoadAsync(comic.Img));
         }
 
-        public Task AddToComicList(ComicModel comic)
+        public Task AddToComicList(Comic comic)
         {
             comicListBindingSource.Add(comic);
             return Task.CompletedTask;
         }
 
-        private async Task DeleteFromComicList(ComicModel comic)
+        private async Task DeleteFromComicList(Comic comic)
         {
             await Task.Run(() =>
             {
-                foreach (ComicModel item in comicListBindingSource)
+                foreach (Comic item in comicListBindingSource)
                 {
                     if (item.Num == comic.Num)
                     {
@@ -91,7 +91,7 @@ namespace XKCDUI
         {
             if (ComicList.SelectedItem != null)
             {
-                var comic = await _mediator.Send(new DBDeleteComicCommand((ComicModel)ComicList.SelectedItem));
+                var comic = await _mediator.Send(new DBDeleteComicCommand((Comic)ComicList.SelectedItem));
                 await DeleteFromComicList(comic);
             }  
         }
@@ -100,7 +100,7 @@ namespace XKCDUI
         {
             if (ComicList.SelectedItem != null)
             {
-                ComicModel comic = (ComicModel)ComicList.SelectedItem;
+                Comic comic = (Comic)ComicList.SelectedItem;
                 _toolTip.SetToolTip(SavedComicBox, comic.Alt);
             }
         }

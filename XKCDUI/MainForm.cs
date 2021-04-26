@@ -19,7 +19,7 @@ namespace XKCDUI
     {
         private readonly IMediator _mediator;
         private SavedComicsForm _savedComicsForm;
-        private ComicModel _currentComic;
+        private Comic _currentComic;
         private readonly ToolTip _toolTip;
 
         public MainForm(IMediator mediator)
@@ -38,7 +38,7 @@ namespace XKCDUI
             await EnableAllButGetButton();
         }
 
-        private async Task UpdatePictureBoxImage(ComicModel xkcd)
+        private async Task UpdatePictureBoxImage(Comic xkcd)
         {
             ComicBox.WaitOnLoad = false;
             await Task.Run( () => ComicBox.LoadAsync(xkcd.Img) );
@@ -67,7 +67,7 @@ namespace XKCDUI
             await UpdateSavedComicListControls(comic);
         }
 
-        private async Task UpdateSavedComicListControls(ComicModel comic)
+        private async Task UpdateSavedComicListControls(Comic comic)
         {
             if (_savedComicsForm != null)
                 await _savedComicsForm.AddToComicList(comic);

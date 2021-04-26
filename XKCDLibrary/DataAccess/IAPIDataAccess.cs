@@ -8,6 +8,6 @@ namespace XKCDLibrary.DataAccess
         public const string XKCD_URL = "https://xkcd.com/";
         public const string XKCD_URL_END = "/info.0.json";
         public const string XKCD_MOST_RECENT_URL = "https://xkcd.com/info.0.json";
-        Task<ComicModel> Get(string url);
+        Task<Comic> Get(string url);
     }
 }

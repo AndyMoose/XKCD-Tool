@@ -15,11 +15,11 @@ namespace XKCDLibrary.Tests
         public async void GetsAllComics()
         {
             //arrange
-            var comiclist = new List<ComicModel>();
+            var comiclist = new List<Comic>();
             for (int i = 1; i <= 10; i++)
             {
                 comiclist.Add(
-                    new ComicModel()
+                    new Comic()
                     {
                         Num = i
                     });

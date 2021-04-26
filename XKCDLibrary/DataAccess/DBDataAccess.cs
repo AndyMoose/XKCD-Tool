@@ -1,16 +1,13 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using XKCDLibrary.Handlers;
 using XKCDLibrary.Models;
+using Dapper;
 
 namespace XKCDLibrary.DataAccess
 {
@@ -35,8 +32,30 @@ namespace XKCDLibrary.DataAccess
             await db.GenerateUnsavedComicList();
         }
 
-        public async Task<ComicModel> Insert(ComicModel xkcd)
+        public async Task<Comic> Insert(Comic xkcd)
         {
+            //Dapper implementation
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+                using IDbConnection connection = new SqliteConnection(connectionString);
+
+                string paramList = "@Month, @Num, @Link, @Year, @News, @Safe_title, @Transcript, @Alt, @Img, @Title, @Day";
+                await connection.ExecuteAsync("INSERT INTO Comics VALUES(" + paramList + ")", xkcd);
+
+                return xkcd;
+            }
+            catch
+            {
+                MessageBox.Show("Unable to connect to or make changes to database.  " +
+                    "Please make sure the database file exists (XKCDStorage.db) " +
+                    "and ensure that the file is not open in another program.");
+
+                return xkcd;
+            };
+
+            //ADO.NET Implementation
+            /**
             try
             {
                 //Set up database connection
@@ -85,10 +104,31 @@ namespace XKCDLibrary.DataAccess
 
                 return xkcd;
             };
+            **/
         }
 
-        public async Task<ComicModel> Delete(ComicModel xkcd)
+        public async Task<Comic> Delete(Comic xkcd)
         {
+            //Dapper Implementation
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+                using IDbConnection connection = new SqliteConnection(connectionString);
+
+                await connection.ExecuteAsync("DELETE FROM Comics WHERE Num = @Num", xkcd);
+
+                return xkcd;
+            }
+            catch
+            {
+                MessageBox.Show("Unable to connect to or make changes to database.  " +
+                                "Please make sure the database file exists (XKCDStorage.db) " +
+                                "and ensure that the file is not open in another program.");
+                return xkcd;
+            }
+
+            //ADO.NET Implementation
+            /**
             try
             {
                 //Set up database connection
@@ -126,10 +166,31 @@ namespace XKCDLibrary.DataAccess
                     "and ensure that the file is not open in another program.");
                 return xkcd;
             }
+            **/
         }
 
-        private Task GenerateSavedComicList()
+        private async Task GenerateSavedComicList()
         {
+            //Dapper implementation
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+                using IDbConnection connection = new SqliteConnection(connectionString);
+
+                var output = await connection.QueryAsync<int>(sql: "SELECT Num FROM Comics", commandTimeout: COMMAND_TIMEOUT);
+
+                SavedComicList = output.ToList();
+            }
+            catch
+            {
+                MessageBox.Show("Unable to connect to or make changes to database.  " +
+                    "Please make sure the database file exists (XKCDStorage.db) " +
+                    "and ensure that the file is not open in another program.");
+            };
+
+
+            //ADO.NET Implementation
+            /**
             try
             {
                 //Create SQL connection
@@ -157,6 +218,7 @@ namespace XKCDLibrary.DataAccess
                     "and ensure that the file is not open in another program.");
             }
             return Task.CompletedTask;
+            **/
         }
         private Task GenerateUnsavedComicList()
         {
@@ -175,12 +237,32 @@ namespace XKCDLibrary.DataAccess
             return Task.CompletedTask;
         }
 
-        public Task<List<ComicModel>> GetListofSavedComics()
+        public async Task<List<Comic>> GetListofSavedComics()
         {
-            var comicList = new List<ComicModel>();
-
+            //Dapper implementation
             try
             {
+                string connectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+                using IDbConnection connection = new SqliteConnection(connectionString);
+
+                var output = (await connection.QueryAsync<Comic>(sql: "SELECT * FROM Comics", commandTimeout: COMMAND_TIMEOUT)).ToList();
+                return output;
+            }
+            catch
+            {
+                MessageBox.Show("Unable to connect to or make changes to database.  " +
+                "Please make sure the database file exists (XKCDStorage.db) " +
+                "and ensure that the file is not open in another program.");
+
+                return null;
+            }
+
+            //ADO.NET implementation
+            /**
+            try
+            {
+                var comicList = new List<Comic>(); 
+
                 //Create SQL connection
                 using var sqlite = new SqliteConnection();
                 sqlite.ConnectionString = ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
@@ -196,7 +278,7 @@ namespace XKCDLibrary.DataAccess
                 //Read comics stored in DB into a list of ComicModels
                 while (reader.Read())
                 {
-                    var comic = new ComicModel();
+                    var comic = new Comic();
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
                         int index = 0;
@@ -213,15 +295,18 @@ namespace XKCDLibrary.DataAccess
                         comic.Day = reader.GetInt32(index++);
                     }
                     comicList.Add(comic);
+                
                 }
-            }
+            } 
             catch
             {
                 MessageBox.Show("Unable to connect to or make changes to database.  " +
                     "Please make sure the database file exists (XKCDStorage.db) " +
                     "and ensure that the file is not open in another program.");
             }
-            return Task.FromResult(comicList);
+            
+           return Task.FromResult(comicList);
+           **/
         }
     }
 }

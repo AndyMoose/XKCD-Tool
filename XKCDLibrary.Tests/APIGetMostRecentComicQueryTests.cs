@@ -17,7 +17,7 @@ namespace XKCDLibrary.Tests
 
             string mostRecentUrl = "https://xkcd.com/info.0.json";
 
-            var mostRecentComic = new ComicModel()
+            var mostRecentComic = new Comic()
             {
                 Num = MAXCOMIC
             };

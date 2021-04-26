@@ -3,10 +3,10 @@ using XKCDLibrary.Models;
 
 namespace XKCDLibrary.Commands
 {
-    public class DBInsertComicCommand : IRequest<ComicModel>
+    public class DBInsertComicCommand : IRequest<Comic>
     {
-        public ComicModel Comic { get; set; }
-        public DBInsertComicCommand(ComicModel comic)
+        public Comic Comic { get; set; }
+        public DBInsertComicCommand(Comic comic)
         {
             Comic = comic;
         }
