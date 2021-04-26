@@ -43,6 +43,10 @@ namespace XKCDLibrary.DataAccess
                 string paramList = "@Month, @Num, @Link, @Year, @News, @Safe_title, @Transcript, @Alt, @Img, @Title, @Day";
                 await connection.ExecuteAsync("INSERT INTO Comics VALUES(" + paramList + ")", xkcd);
 
+                //Add value to num list
+                SavedComicList.Add(xkcd.Num);
+                UnsavedComicList.Remove(xkcd.Num);
+
                 return xkcd;
             }
             catch
@@ -116,6 +120,10 @@ namespace XKCDLibrary.DataAccess
                 using IDbConnection connection = new SqliteConnection(connectionString);
 
                 await connection.ExecuteAsync("DELETE FROM Comics WHERE Num = @Num", xkcd);
+
+                //Remove num from num list
+                SavedComicList.Remove(xkcd.Num);
+                UnsavedComicList.Add(xkcd.Num);
 
                 return xkcd;
             }
