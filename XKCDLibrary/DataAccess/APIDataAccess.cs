@@ -16,12 +16,7 @@ namespace XKCDLibrary.DataAccess
 
         public static int XKCD_MOST_RECENT_COMIC_NUMBER { get; set; }
 
-        public APIDataAccess()
-        {
-            Initialize();
-        }
-
-        private async void Initialize()
+        public async Task Initialize()
         {
             var comic = await Get(XKCD_MOST_RECENT_URL);
             XKCD_MOST_RECENT_COMIC_NUMBER = comic.Num;

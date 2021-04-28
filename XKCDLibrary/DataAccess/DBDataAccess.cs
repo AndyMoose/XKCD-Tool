@@ -23,6 +23,7 @@ namespace XKCDLibrary.DataAccess
         public DBDataAccess()
         {
             SavedComicList = new List<int>();
+            UnsavedComicList = new List<int>();
         }
 
         public async Task Initialize()
@@ -232,7 +233,6 @@ namespace XKCDLibrary.DataAccess
 
             var mostRecentComic = APIDataAccess.XKCD_MOST_RECENT_COMIC_NUMBER;
 
-            UnsavedComicList = new List<int>();
             for (int i = 1; i <= mostRecentComic; i++)
             {
                 if (!SavedComicList.Contains(i))
