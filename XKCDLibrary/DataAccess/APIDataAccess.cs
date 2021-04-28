@@ -46,7 +46,7 @@ namespace XKCDLibrary.DataAccess
             {
                 MessageBox.Show("Unable to connect to XKCD.  Please check your internet connection.");
 
-                return null;
+                throw;
             }
 
         }

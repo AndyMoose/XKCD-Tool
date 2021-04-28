@@ -16,14 +16,14 @@ namespace XKCDUI
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static async void Main()
         {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             //Configure services.  Includes Data Access and Mediator for the XKCDLibrary
-            var serviceProvider = Startup.ConfigureServices();
+            var serviceProvider = await Startup.ConfigureServices();
 
             ActivatorUtilities.CreateInstance(serviceProvider, typeof(APIDataAccess));
             ActivatorUtilities.CreateInstance(serviceProvider, typeof(DBDataAccess));

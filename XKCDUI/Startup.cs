@@ -12,12 +12,17 @@ namespace XKCDUI
 {
     public static class Startup
     {
-        public static ServiceProvider ConfigureServices()
+        public async static Task<ServiceProvider> ConfigureServices()
         {
             var services = new ServiceCollection();
             services.AddMediatR(typeof(XKCDLibraryEntryPoint).Assembly);
+
             services.AddSingleton<IAPIDataAccess, APIDataAccess>();
-            services.AddSingleton<IDBDataAccess, DBDataAccess>();
+
+            var dbData = new DBDataAccess();
+            await dbData.Initialize();
+            services.AddSingleton<IDBDataAccess>(dbData);
+
             return services.BuildServiceProvider();
         }
     }

@@ -23,13 +23,12 @@ namespace XKCDLibrary.DataAccess
         public DBDataAccess()
         {
             SavedComicList = new List<int>();
-            Initialize(this);
         }
 
-        private async static void Initialize(DBDataAccess db)
+        public async Task Initialize()
         {
-            await db.GenerateSavedComicList();
-            await db.GenerateUnsavedComicList();
+            await GenerateSavedComicList();
+            await GenerateUnsavedComicList();
         }
 
         public async Task<Comic> Insert(Comic xkcd)
@@ -55,7 +54,7 @@ namespace XKCDLibrary.DataAccess
                     "Please make sure the database file exists (XKCDStorage.db) " +
                     "and ensure that the file is not open in another program.");
 
-                return xkcd;
+                throw;
             };
 
             //ADO.NET Implementation
@@ -132,7 +131,7 @@ namespace XKCDLibrary.DataAccess
                 MessageBox.Show("Unable to connect to or make changes to database.  " +
                                 "Please make sure the database file exists (XKCDStorage.db) " +
                                 "and ensure that the file is not open in another program.");
-                return xkcd;
+                throw;
             }
 
             //ADO.NET Implementation
@@ -262,7 +261,7 @@ namespace XKCDLibrary.DataAccess
                 "Please make sure the database file exists (XKCDStorage.db) " +
                 "and ensure that the file is not open in another program.");
 
-                return null;
+                throw;
             }
 
             //ADO.NET implementation
