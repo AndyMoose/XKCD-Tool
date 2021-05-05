@@ -8,7 +8,7 @@ using Xunit;
 
 namespace XKCDLibrary.Tests
 {
-    public class APIGetMostRecentComicQueryTests
+    public class APIGetMostRecentComicHandlerTests
     {
         [Fact]
         public async void ReturnsMostRecentComic()

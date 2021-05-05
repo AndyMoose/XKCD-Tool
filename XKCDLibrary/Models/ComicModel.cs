@@ -9,26 +9,26 @@ namespace XKCDLibrary.Models
 {
     public record Comic
     {
-        public int Month { get; set; }
+        public int Month { get; init; }
 
-        public int Num { get; set; }
+        public int Num { get; init; }
 
-        public string Link { get; set; }
+        public string Link { get; init; }
 
-        public int Year { get; set; }
+        public int Year { get; init; }
 
-        public string News { get; set; }
+        public string News { get; init; }
 
-        public string Safe_title { get; set; }
+        public string Safe_title { get; init; }
 
-        public string Transcript { get; set; }
+        public string Transcript { get; init; }
 
-        public string Alt { get; set; }
+        public string Alt { get; init; }
 
-        public string Img { get; set; }
+        public string Img { get; init; }
 
-        public string Title { get; set; }
+        public string Title { get; init; }
 
-        public int Day { get; set; }
+        public int Day { get; init; }
     }
 }
