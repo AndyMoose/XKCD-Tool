@@ -12,7 +12,7 @@ namespace XKCDUI
 {
     public static class Startup
     {
-        public async static Task<ServiceProvider> ConfigureServices()
+        public static async Task<ServiceProvider> ConfigureServices()
         {
             var services = new ServiceCollection();
             services.AddMediatR(typeof(XKCDLibraryEntryPoint).Assembly);

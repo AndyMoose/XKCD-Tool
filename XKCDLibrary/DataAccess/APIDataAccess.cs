@@ -16,8 +16,13 @@ namespace XKCDLibrary.DataAccess
 
         public static int XKCD_MOST_RECENT_COMIC_NUMBER { get; set; }
 
+        private static HttpClient _client;
+
         public async Task Initialize()
         {
+            _client = new HttpClient();
+            _client.Timeout = TimeSpan.FromSeconds(10);
+
             var comic = await Get(XKCD_MOST_RECENT_URL);
             XKCD_MOST_RECENT_COMIC_NUMBER = comic.Num;
         }
@@ -29,11 +34,7 @@ namespace XKCDLibrary.DataAccess
             {
                 string json = null;
 
-                using (var client = new HttpClient())
-                {
-                    client.Timeout = TimeSpan.FromSeconds(10);
-                    json = await client.GetStringAsync(url);
-                }
+                json = await _client.GetStringAsync(url);               
 
                 return JsonConvert.DeserializeObject<Comic>(json);
             }
